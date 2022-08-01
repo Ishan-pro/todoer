@@ -5,10 +5,10 @@ interface TodoProps {
   text: string;
 }
 
-const TodoCom: TodoProps = ({ text }) => {
+const TodoCom = (props: TodoProps) => {
   return (
     <Todo>
-      <span style={{ flex: 1 }}>{text}</span> <Tick type="checkbox" />
+      <span style={{ flex: 1 }}>{props.text}</span> <Tick type="checkbox" />
     </Todo>
   );
 };
