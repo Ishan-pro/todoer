@@ -3,7 +3,7 @@ import { HiMenu } from 'react-icons/hi';
 
 const Navbar = () => {
   return (
-    <Nav>
+    <Nav style={{ height: '15vh' }}>
       <Navhero>Todoer</Navhero>
       <HiMenu size={35} className="lg:hidden" />
       <Menu>

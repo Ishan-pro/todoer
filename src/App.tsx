@@ -1,13 +1,16 @@
-import { useState } from 'react';
-import Navbar from './components/Navbar';
-import TodoForm from './components/TodoForm';
+import { useState, useEffect, useRef } from 'react';
+import { Login, Navbar, TodoForm } from './components';
+import supabase from './supabase';
+
 function App() {
+  const user = supabase.auth.user();
+
   const [count, setCount] = useState(0);
 
   return (
     <>
       <Navbar />
-      <TodoForm />
+      <div style={{ height: '85vh' }}>{user ? <TodoForm /> : <Login />}</div>
     </>
   );
 }
