@@ -1,12 +1,12 @@
-import supabase from '../supabase';
+import supabase from './supabase';
 
 export const Signup = async (email: string) => {
   let { user, error } = await supabase.auth.signIn({
     email
   });
   if (user) {
-    return user;
+    console.log(` Success ${user}`)
   } else {
-    return false;
+    console.log(error)
   }
 };
