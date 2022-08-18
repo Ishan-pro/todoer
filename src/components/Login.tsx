@@ -1,15 +1,13 @@
 import tw from 'tailwind-styled-components';
-import { useRef, useEffect } from 'react';
-import supabase from './supabase'
+import React ,{ useRef} from 'react';
+import { Signup } from './functions';
 
 export default async function Login() {
-  
-
   const password = useRef();
   const email = useRef();
-  const handlesubmit = (e) => {
+  const handlesubmit = (e:React.FormEvent<HTMLElement>) => {
     e.preventDefault();
-    
+    email.current && Signup(email.current)
   };
 
   return (
