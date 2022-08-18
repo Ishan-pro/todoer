@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Login, Navbar, TodoForm } from './components';
-import supabase from './supabase';
+import supabase from './utils/supabase';
 
 function App() {
   const user = supabase.auth.user();

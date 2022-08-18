@@ -1,13 +1,13 @@
 import tw from 'tailwind-styled-components';
-import React ,{ useRef} from 'react';
-import { Signup } from './functions';
+import React ,{ useState} from 'react';
+import { Signup } from '../utils/functions';
 
-export default async function Login() {
-  const password = useRef();
-  const email = useRef();
+export default function Login() {
+  const [email, setEmail] = useState<string>("");
   const handlesubmit = (e:React.FormEvent<HTMLElement>) => {
     e.preventDefault();
-    email.current && Signup(email.current)
+    console.log(email)
+    Signup(email)
   };
 
   return (
@@ -17,9 +17,8 @@ export default async function Login() {
         onSubmit={handlesubmit}
       >
         <H1>Login or Signup</H1>
-        <Input placeholder="Email" ref={email} />
-        <Input placeholder="Username" ref={password} />
-        <Submit type="submit" disabled={true} $dis={true}>
+        <Input placeholder="Email"  value={email} onChange={(e:React.FormEvent<HTMLElement>) => {setEmail(e.target.value)}}/>
+        <Submit type="submit">
           Register / Login
         </Submit>
       </LoginForm>
