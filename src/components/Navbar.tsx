@@ -1,5 +1,6 @@
 import tw from 'tailwind-styled-components';
 import { HiMenu } from 'react-icons/hi';
+import supabase from '../utils/supabase';
 
 const Navbar = () => {
   return (
@@ -8,7 +9,7 @@ const Navbar = () => {
       <HiMenu size={35} className="lg:hidden" />
       <Menu>
         <MenuItems>
-          <L>Dodge</L>
+          <L onClick={() =>{supabase.auth.signOut()}}>Logout</L>
         </MenuItems>
         <MenuItems>
           <L>Dodge</L>

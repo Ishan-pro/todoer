@@ -1,13 +1,15 @@
 import tw from 'tailwind-styled-components';
 import React ,{ useState} from 'react';
-import { Signup } from '../utils/functions';
+import { Signup, Signin } from '../utils/functions';
 
 export default function Login() {
   const [email, setEmail] = useState<string>("");
+
+  const [password, setPassword] = useState<string>("");
   const handlesubmit = (e:React.FormEvent<HTMLElement>) => {
     e.preventDefault();
     console.log(email)
-    Signup(email)
+    
   };
 
   return (
@@ -17,17 +19,33 @@ export default function Login() {
         onSubmit={handlesubmit}
       >
         <H1>Login or Signup</H1>
-        <Input placeholder="Email"  value={email} onChange={(e:React.FormEvent<HTMLElement>) => {setEmail(e.target.value)}}/>
-        <Submit type="submit">
-          Register / Login
+        <Input placeholder="Email"  value={email} 
+        onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+          setEmail(e.target.value)
+        }}/>
+        <Input placeholder="Password"  value={password} 
+        onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+          setPassword(e.target.value)
+        }}/>
+        
+        <Submit onClick={() => {Signup(email, password)}}>
+          Register
+        </Submit>
+        <Submit $login={true} onClick={() => {Signin(email, password)}}>
+          Login
         </Submit>
       </LoginForm>
     </LoginBox>
   );
 }
 
-const Submit = tw.button`
-bg-blue-500
+interface FormBtnProps {
+  $login:boolean
+}
+
+const Submit = tw.button<FormBtnProps>`
+${(p:FormBtnProps) => (p.$login ? "bg-purple-500" : "bg-blue-500")}
+
 rounded
 py-2
 hover:bg-blue-400
