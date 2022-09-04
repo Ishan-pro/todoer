@@ -6,19 +6,9 @@ const Navbar = () => {
   return (
     <Nav style={{ height: '15vh' }}>
       <Navhero>Todoer</Navhero>
-      <HiMenu size={35} className="lg:hidden" />
       <Menu>
         <MenuItems>
           <L onClick={() =>{supabase.auth.signOut()}}>Logout</L>
-        </MenuItems>
-        <MenuItems>
-          <L>Dodge</L>
-        </MenuItems>
-        <MenuItems>
-          <L>Dodge</L>
-        </MenuItems>
-        <MenuItems>
-          <L>Dodge</L>
         </MenuItems>
       </Menu>
     </Nav>
