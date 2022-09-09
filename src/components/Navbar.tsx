@@ -1,14 +1,16 @@
 import tw from 'tailwind-styled-components';
-import { HiMenu } from 'react-icons/hi';
 import supabase from '../utils/supabase';
+import { useAppSelector } from '../utils/hooks';
 
 const Navbar = () => {
+  const user = useAppSelector((state) => state.users.user)
   return (
     <Nav style={{ height: '15vh' }}>
       <Navhero>Todoer</Navhero>
       <Menu>
         <MenuItems>
-          <L onClick={() =>{supabase.auth.signOut()}}>Logout</L>
+        {user &&
+          <L onClick={() =>{supabase.auth.signOut()}}>Logout</L>}
         </MenuItems>
       </Menu>
     </Nav>

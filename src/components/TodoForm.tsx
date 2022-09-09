@@ -1,7 +1,8 @@
-import Stringifier from 'postcss/lib/stringifier';
+
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import tw from 'tailwind-styled-components';
-import { GetTodos, CreateTodo } from '../utils/functions';
+import {useAppDispatch, useAppSelector} from '../utils/hooks'
+import {CreateTodo, GetTodos} from '../functions/todoSlice'
 
 interface TodoProps {
   text: string;
@@ -20,21 +21,27 @@ const TodoCom = (props: TodoProps) => {
 };
 
 const TodoForm = (props:{user:string}) => {
-  const [posts, setPosts] = useState<Todo[]>([])
+  const todos = useAppSelector((state) => state.todos.todos)
+  const dispatch = useAppDispatch()
   const [text, setText] = useState<string>("")
   useEffect(() => {
-    GetTodos().then(res => {console.log({res}); res && setPosts(prev => [...res])})
+    dispatch(GetTodos())
   }, [])
-  const printingPosts = posts.map((post, index) => {
-    return <TodoCom key={index.toString()} text={post.text}/>
+  const printingPosts = todos.map((Todo, index) => {
+    return <TodoCom key={index.toString()} text={Todo.text}/>
   })
+
+  const onSubmitText = () => {
+    dispatch(CreateTodo(text))
+    setText("")
+  }
   return (
     <Parent style={{ height: '90vh' }}>
       <TodoContainer>
         {printingPosts}
         <CreateTodoBox>
         <TodoInput type="text" value={text} onChange={(e:React.ChangeEvent<HTMLInputElement>) => {setText(e.target.value)}} />
-      <TodoButton onClick={() => {CreateTodo(text)}}>Create Todo</TodoButton>
+      <TodoButton onClick={() => {onSubmitText()}}>Create Todo</TodoButton>
         </CreateTodoBox>
       </TodoContainer>
 
