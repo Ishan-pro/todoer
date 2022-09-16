@@ -1,5 +1,4 @@
 import { configureStore } from '@reduxjs/toolkit'
-import loadingSlice from './loadingSlice'
 import todoSlice from './todoSlice'
 import userSlice from './userSlice'
 // ...
@@ -9,7 +8,6 @@ export const store = configureStore({
   reducer: {
     users:userSlice.reducer,
     todos:todoSlice.reducer,
-    loading:loadingSlice.reducer
   },
 })
 

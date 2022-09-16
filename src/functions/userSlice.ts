@@ -1,8 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { User } from "@supabase/supabase-js";
 import supabase from "../utils/supabase";
-import { failedOrPassed } from "./loadingSlice";
-
 
 interface userDTO {
     email:string,
@@ -43,7 +41,7 @@ interface userState {
 }
 
 const initialState = {
-    user:null,
+    user:supabase.auth.user(),
 } as userState
 
 const userSlice = createSlice({
@@ -52,19 +50,20 @@ const userSlice = createSlice({
     reducers:{
         logout:(state) => {
             state.user = null
+            supabase.auth.signOut()
         }
     },
     extraReducers:(builder) =>{
         builder.addCase(Signup.fulfilled, (state, action)=>{
             state.user = supabase.auth.user()
-            failedOrPassed("succeeded")
+            
         }),
         builder.addCase(Signin.fulfilled, (state, action)=>{
             state.user = supabase.auth.user()
-            failedOrPassed("succeded")
+            
         }),
         builder.addCase(Signin.rejected, (state, action) => {
-            failedOrPassed("failed")
+            
         })
     },
 })

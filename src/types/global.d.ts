@@ -7,7 +7,8 @@ declare global {
         id:string,
         scheduled_at:string,
         created_at:string,
-        author:string
+        author:string,
+        completed:boolean
       }
 }
 

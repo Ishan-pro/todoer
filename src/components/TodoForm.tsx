@@ -2,33 +2,45 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import tw from 'tailwind-styled-components';
 import {useAppDispatch, useAppSelector} from '../utils/hooks'
-import {CreateTodo, GetTodos} from '../functions/todoSlice'
+import todoSlice, {CompleteTodo, CreateTodo, GetTodos} from '../functions/todoSlice'
 
 interface TodoProps {
   text: string;
+  todo:Todo
 }
 
 
 
 const TodoCom = (props: TodoProps) => {
+  const dispatch = useAppDispatch()
+  const handleCheck = (e:React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.checked) {
+      dispatch(CompleteTodo(props.todo.id))
+    }
+  }
   
 
   return (
     <Todos>
-      <span style={{ flex: 1 }}>{props.text}</span> <Tick type="checkbox" />
+      {props.todo.completed ? <s> <span style={{ flex: 1 }}>{props.text}</span> </s> :
+      <> <span style={{ flex: 1 }}>{props.text}</span><Tick type="checkbox"
+      onChange={handleCheck}
+      /> </>} 
+      
     </Todos>
   );
 };
 
 const TodoForm = (props:{user:string}) => {
   const todos = useAppSelector((state) => state.todos.todos)
+  const loading  = useAppSelector((state) => state.todos.loading)
   const dispatch = useAppDispatch()
   const [text, setText] = useState<string>("")
   useEffect(() => {
     dispatch(GetTodos())
   }, [])
   const printingPosts = todos.map((Todo, index) => {
-    return <TodoCom key={index.toString()} text={Todo.text}/>
+    return <TodoCom key={index.toString()} text={Todo.text} todo={Todo}/>
   })
 
   const onSubmitText = () => {
@@ -38,7 +50,7 @@ const TodoForm = (props:{user:string}) => {
   return (
     <Parent style={{ height: '90vh' }}>
       <TodoContainer>
-        {printingPosts}
+        {loading=="loading" ? "loading" : printingPosts}
         <CreateTodoBox>
         <TodoInput type="text" value={text} onChange={(e:React.ChangeEvent<HTMLInputElement>) => {setText(e.target.value)}} />
       <TodoButton onClick={() => {onSubmitText()}}>Create Todo</TodoButton>
