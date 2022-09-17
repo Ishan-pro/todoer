@@ -1,10 +1,11 @@
 import tw from 'tailwind-styled-components';
 import React ,{ useState} from 'react';
-import { Signup, Signin } from '../utils/functions';
+import { Signup, Signin } from '../functions/userSlice';
+import { useAppDispatch } from '../utils/hooks';
 
 export default function Login() {
   const [email, setEmail] = useState<string>("");
-
+  const dispatch = useAppDispatch()
   const [password, setPassword] = useState<string>("");
   const handlesubmit = (e:React.FormEvent<HTMLElement>) => {
     e.preventDefault();
@@ -28,10 +29,10 @@ export default function Login() {
           setPassword(e.target.value)
         }}/>
         
-        <Submit onClick={() => {Signup(email, password)}}>
+        <Submit onClick={() => {dispatch(Signup({email, password}))}}>
           Register
         </Submit>
-        <Submit $login={true} onClick={() => {Signin(email, password)}}>
+        <Submit $login={true} onClick={() => {dispatch(Signin({email, password}))}}>
           Login
         </Submit>
       </LoginForm>

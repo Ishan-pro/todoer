@@ -1,24 +1,16 @@
 import tw from 'tailwind-styled-components';
-import { HiMenu } from 'react-icons/hi';
 import supabase from '../utils/supabase';
+import { useAppSelector } from '../utils/hooks';
 
 const Navbar = () => {
+  const user = useAppSelector((state) => state.users.user)
   return (
     <Nav style={{ height: '15vh' }}>
       <Navhero>Todoer</Navhero>
-      <HiMenu size={35} className="lg:hidden" />
       <Menu>
         <MenuItems>
-          <L onClick={() =>{supabase.auth.signOut()}}>Logout</L>
-        </MenuItems>
-        <MenuItems>
-          <L>Dodge</L>
-        </MenuItems>
-        <MenuItems>
-          <L>Dodge</L>
-        </MenuItems>
-        <MenuItems>
-          <L>Dodge</L>
+        {user &&
+          <L onClick={() =>{supabase.auth.signOut()}}>Logout</L>}
         </MenuItems>
       </Menu>
     </Nav>
@@ -47,9 +39,7 @@ flex
 `;
 
 const Menu = tw.ul`
-hidden
-lg:flex
-lg:gap-3
+flex
 
 `;
 
