@@ -39,9 +39,7 @@ flex
 `;
 
 const Menu = tw.ul`
-hidden
-lg:flex
-lg:gap-3
+flex
 
 `;
 
