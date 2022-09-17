@@ -14,9 +14,19 @@ export const GetTodos = createAsyncThunk(
 export const CompleteTodo = createAsyncThunk(
     'todos/complete', 
     async(id:string) => {
-        const todos = await supabase.from<Todo>('todos').
+        await supabase.from<Todo>('todos').
         update({completed:true})
-        .match({id:id})
+        .match({id})
+        const todos = await supabase.from<Todo>("todos").select("*")
+        return todos.data
+    }
+)
+
+export const DeleteTodo = createAsyncThunk(
+    'todos/delete',
+    async(id:string) => {
+        await supabase.from<Todo>("todos").delete().match({id})
+        const todos = await supabase.from<Todo>("todos").select("*")
         return todos.data
     }
 )
@@ -69,9 +79,12 @@ const todoSlice = createSlice({
 
         builder.addCase(CompleteTodo.fulfilled, (state, action) => {
             if (action.payload) {
-                const itemid = action.payload[0].id 
-                state.todos = state.todos.filter((item) => {!(item.id == itemid)})
-                state.todos = [...action.payload, ...state.todos]
+                state.todos = action.payload
+            }
+        }),
+        builder.addCase(DeleteTodo.fulfilled, (state, action) => {
+            if (action.payload) {
+                state.todos = action.payload
             }
         })
     },
